@@ -20,6 +20,9 @@ set -e
 #CONN=$(PGPASSWORD=$SU_USER_PWD psql -v ON_ERROR_STOP=1 --username=$SU_USER --host=$DB_SERVERIP --port=$DB_PORT --dbname=$DEFAULT_DB_NAME -t -c "SELECT count(pg_terminate_backend(pg_stat_activity.pid)) FROM pg_stat_activity WHERE datname = '$MOSIP_DB_NAME' AND pid <> pg_backend_pid()";exit;)
 #echo "Terminated connections"
 
+echo "DB_USER:"`$SU_USER`
+echo "DB_PASSWORD:"`$SU_USER_PWD`
+echo "PGPASSWORD=`$SU_USER_PWD` psql -v ON_ERROR_STOP=1 --username=`$SU_USER` --host=`$DB_SERVERIP` --port=`$DB_PORT` --dbname=`$DEFAULT_DB_NAME` -f drop_db.sql"
 ## Drop db and role
 PGPASSWORD=$SU_USER_PWD psql -v ON_ERROR_STOP=1 --username=$SU_USER --host=$DB_SERVERIP --port=$DB_PORT --dbname=$DEFAULT_DB_NAME -f drop_db.sql 
 PGPASSWORD=$SU_USER_PWD psql -v ON_ERROR_STOP=1 --username=$SU_USER --host=$DB_SERVERIP --port=$DB_PORT --dbname=$DEFAULT_DB_NAME -f drop_role.sql 
