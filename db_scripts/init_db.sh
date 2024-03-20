@@ -6,6 +6,12 @@ if [ $# -ge 1 ] ; then
   export KUBECONFIG=$1
 fi
 
+# Following 2 lines are applicable only is a Postgres DB is setup outside EKS cluster. In our case RDS.
+kubectl create ns postgres
+kubectl apply -f secret-rds-postgres-postgresql.yaml -n postgres # This file includes the base64 encoded password
+kubectl apply -f secret-rds-db-common-secrets.yaml -n postgres
+##################################################################################################################
+
 NS=esignet
 CHART_VERSION=12.0.1-B4
 
@@ -13,12 +19,12 @@ helm repo add mosip https://mosip.github.io/mosip-helm
 helm repo update
 
 while true; do
-    read -p "CAUTION: Do we already have Postgres installed? Also make sure the esignet DB is backed up as the same will be overriden. Do you still want to continue?" yn
+    read -p "CAUTION: Do we already have Postgres installed? Also make sure the esignet DB is backed up as the same will be overriden. Do you still want to continue Y/N ?" yn
     if [ $yn = "Y" ]
       then
         DB_USER_PASSWORD=$( kubectl -n postgres get secrets db-common-secrets -o jsonpath={.data.db-dbuser-password} | base64 -d )
 
-        kubectl create ns $NS
+	kubectl create ns $NS
 
         echo Removing existing mosip_esignet DB installation
         helm -n $NS delete postgres-init-esignet

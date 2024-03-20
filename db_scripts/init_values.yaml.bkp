@@ -1,5 +1,5 @@
-dbUserPasswords:
-  dbuserPassword: 2OZDITdKIMha4jW
+#dbUserPasswords:
+#  dbuserPassword: ""
 
 databases:
   mosip_toolkit:
@@ -58,13 +58,13 @@ databases:
   
   mosip_esignet:
     enabled: true
-    host: "rdsstack-databaseb269d8bb-wtjrn0lxj2sw.cluster-cveklit2rj4m.ap-south-1.rds.amazonaws.com"
+    host: "postgres-postgresql.postgres"
     port: 5432
     su:
       user: postgres
       secret:
         name: postgres-postgresql
-        key: password
+        key: postgresql-password
     dml: 1
     repoUrl: https://github.com/mosip/esignet.git
     branch: v1.2.0
