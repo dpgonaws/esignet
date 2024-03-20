@@ -29,6 +29,12 @@ set -e
 #PGPASSWORD=$SU_USER_PWD psql -v ON_ERROR_STOP=1 --username=$SU_USER --host=$DB_SERVERIP --port=$DB_PORT -f role_dbuser.sql -v dbuserpwd=\'$DBUSER_PWD\' 
 
 ## Create DB
+echo "pwd"
+echo $SU_USER_PWD
+echo "user"
+echo $SU_USER
+echo $DB_SERVERIP
+
 PGPASSWORD=$SU_USER_PWD psql -v ON_ERROR_STOP=1 --username=$SU_USER --host=$DB_SERVERIP --port=$DB_PORT -f db.sql 
 PGPASSWORD=$SU_USER_PWD psql -v ON_ERROR_STOP=1 --username=$SU_USER --host=$DB_SERVERIP --port=$DB_PORT -f ddl.sql 
 
